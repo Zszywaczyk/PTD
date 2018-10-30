@@ -23,7 +23,7 @@ namespace PTD_Lab1
 
 			for(int i= 0; i < n; i++)
 			{
-
+				x[i] = xn(this.f, i, this.fs, this.phi);
 			}
 
 		}
@@ -41,7 +41,12 @@ namespace PTD_Lab1
 	{
 		static void Main(string[] args)
 		{
-			
+			float f = 4;
+			float phi = (float)((7 * Math.PI)/9);
+			float fs = 100;
+			float time = 1;
+			int n = 100;
+			Zad1 zad1 = new Zad1();
 			
 		}
 	}
