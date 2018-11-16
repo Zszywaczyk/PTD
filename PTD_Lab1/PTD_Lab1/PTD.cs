@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -206,7 +207,16 @@ namespace PTD_Lab1
 		{
 			return this.T;
 		}
-
+		public void saveXNToFile()
+		{
+			string createText;
+			createText = this.N.ToString() + Environment.NewLine;
+			for (int i = 0; i < N; i++)
+			{
+				createText += i+" "+this.x[i] + Environment.NewLine;
+			}
+			File.WriteAllText("../../../../PTD_Lab2/xn.txt", createText);
+		}
 
 	}
 }

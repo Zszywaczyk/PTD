@@ -32,7 +32,7 @@ namespace PTD_Lab1
 			Application.Run(new Program(zad1, "1"));
 			Application.Run(new Program(zad1, "2a"));
 			Application.Run(new Program(zad1, "2b"));
-			
+			zad1.saveXNToFile();
 
 			T = 3;    //czas trwania sygnalu
 			fs = 1200; //czestotliwosc probkowania
