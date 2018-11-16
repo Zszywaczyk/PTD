@@ -101,19 +101,19 @@ namespace PTD_Lab1
 			this.chart1.Name = "chart1";
 			series1.ChartArea = "ChartArea1";
 			series1.Legend = "Legend1";
-			series1.Name = "Series1";
+			series1.Name = "X(n)";
 			this.chart1.Series.Add(series1);
 			this.chart1.Size = new System.Drawing.Size(1277, 526);
 			this.chart1.TabIndex = 0;
 			this.chart1.Text = "chart1";
-			this.chart1.ChartAreas[0].AxisX.Maximum = zad1.getBig_T();
+			this.chart1.ChartAreas[0].AxisX.Maximum = zad1.getN();
 			this.chart1.ChartAreas[0].AxisX.Minimum = 0;
 			// 
 			// Program
 			this.chart1.Series[0].BorderWidth = 3;
 			for (int i = 0; i < zad1.getN(); i++)
 			{
-				this.chart1.Series[0].Points.AddXY(zad1.getSmall_t(i), zad1.getXN(i));
+				this.chart1.Series[0].Points.AddXY(i, zad1.getXN(i));
 				this.chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
 			}
 			// 
@@ -146,19 +146,19 @@ namespace PTD_Lab1
 			this.chart1.Name = "chart1";
 			series1.ChartArea = "ChartArea1";
 			series1.Legend = "Legend1";
-			series1.Name = "Series1";
+			series1.Name = "Z(n)";
 			this.chart1.Series.Add(series1);
 			this.chart1.Size = new System.Drawing.Size(1277, 526);
 			this.chart1.TabIndex = 0;
 			this.chart1.Text = "chart1";
-			this.chart1.ChartAreas[0].AxisX.Maximum = zad1.getBig_T();
+			this.chart1.ChartAreas[0].AxisX.Maximum = zad1.getN();
 			this.chart1.ChartAreas[0].AxisX.Minimum = 0;
 			// 
 			// Program
 			this.chart1.Series[0].BorderWidth = 3;
 			for (int i = 0; i < zad1.getN(); i++)
 			{
-				this.chart1.Series[0].Points.AddXY(zad1.getSmall_t(i), zad1.getZN(i));
+				this.chart1.Series[0].Points.AddXY(i, zad1.getZN(i));
 				this.chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
 			}
 			// 
@@ -190,19 +190,19 @@ namespace PTD_Lab1
 			this.chart1.Name = "chart1";
 			series1.ChartArea = "ChartArea1";
 			series1.Legend = "Legend1";
-			series1.Name = "Series1";
+			series1.Name = "V(n)";
 			this.chart1.Series.Add(series1);
 			this.chart1.Size = new System.Drawing.Size(1277, 526);
 			this.chart1.TabIndex = 0;
 			this.chart1.Text = "chart1";
-			this.chart1.ChartAreas[0].AxisX.Maximum = zad1.getBig_T();
+			this.chart1.ChartAreas[0].AxisX.Maximum = zad1.getN();
 			this.chart1.ChartAreas[0].AxisX.Minimum = 0;
 			// 
 			// Program
 			this.chart1.Series[0].BorderWidth = 3;
 			for (int i = 0; i < zad1.getN(); i++)
 			{
-				this.chart1.Series[0].Points.AddXY(zad1.getSmall_t(i), zad1.getVN(i));
+				this.chart1.Series[0].Points.AddXY(i, zad1.getVN(i));
 				this.chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
 			}
 			// 
@@ -234,19 +234,19 @@ namespace PTD_Lab1
 			this.chart1.Name = "chart1";
 			series1.ChartArea = "ChartArea1";
 			series1.Legend = "Legend1";
-			series1.Name = "Series1";
+			series1.Name = "U(n)";
 			this.chart1.Series.Add(series1);
 			this.chart1.Size = new System.Drawing.Size(1277, 526);
 			this.chart1.TabIndex = 0;
 			this.chart1.Text = "chart1";
-			this.chart1.ChartAreas[0].AxisX.Maximum = zad1.getBig_T();
+			this.chart1.ChartAreas[0].AxisX.Maximum = zad1.getN();
 			this.chart1.ChartAreas[0].AxisX.Minimum = 0;
 			// 
 			// Program
 			this.chart1.Series[0].BorderWidth = 3;
 			for (int i = 0; i < zad1.getN(); i++)
 			{
-				this.chart1.Series[0].Points.AddXY(zad1.getSmall_t(i), zad1.getUN(i));
+				this.chart1.Series[0].Points.AddXY(i, zad1.getUN(i));
 				this.chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
 			}
 			// 
@@ -278,7 +278,7 @@ namespace PTD_Lab1
 			this.chart1.Name = "chart1";
 			series1.ChartArea = "ChartArea1";
 			series1.Legend = "Legend1";
-			series1.Name = "Series1";
+			series1.Name = "g(t)  H=2";
 			this.chart1.Series.Add(series1);
 			this.chart1.Size = new System.Drawing.Size(1277, 526);
 			this.chart1.TabIndex = 0;
@@ -322,7 +322,7 @@ namespace PTD_Lab1
 			this.chart1.Name = "chart1";
 			series1.ChartArea = "ChartArea1";
 			series1.Legend = "Legend1";
-			series1.Name = "Series1";
+			series1.Name = "g(t)  H=5";
 			this.chart1.Series.Add(series1);
 			this.chart1.Size = new System.Drawing.Size(1277, 526);
 			this.chart1.TabIndex = 0;
@@ -366,7 +366,7 @@ namespace PTD_Lab1
 			this.chart1.Name = "chart1";
 			series1.ChartArea = "ChartArea1";
 			series1.Legend = "Legend1";
-			series1.Name = "Series1";
+			series1.Name = "g(t)  H=50";
 			this.chart1.Series.Add(series1);
 			this.chart1.Size = new System.Drawing.Size(1277, 526);
 			this.chart1.TabIndex = 0;
