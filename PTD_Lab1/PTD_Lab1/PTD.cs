@@ -20,6 +20,11 @@ namespace PTD_Lab1
 
 		float[] u;
 
+		int[] H;
+		float[] ga;
+		float[] gb;
+		float[] gc;
+
 		public PTD(float f, float phi, float fs, float T, int N)
 		{
 			this.f = f;
@@ -72,6 +77,51 @@ namespace PTD_Lab1
 				{
 					this.u[i] = (float)(Math.Log((0.7 * this.t[i]), 2) * 0.5 * Math.Sin(40 * Math.PI * this.t[i]));
 				}
+			}
+
+		}
+		public PTD(float T, float fs, int N, int[] H) {
+			this.T = T;
+			this.fs = fs;
+			this.N = N;
+			this.H = H;
+			this.t = new float[N];
+			this.ga = new float[N];
+
+			//a
+			double sum=0;
+			for (int i = 0; i < N; i++) {
+				t[i] = i * (1 / fs);
+				for(int n = 1; n <= H[0]; n++)
+				{
+					sum = sum+ Math.Sin((n * t[i] * Math.PI) / 2) * Math.Sin(20 * n * Math.PI * t[i]);
+				}
+				this.ga[i] = (float)(9 / Math.Pow(Math.PI, 2) * sum);
+					sum = 0;
+			}
+			//b
+			this.gb = new float[N];
+			sum = 0;
+			for (int i = 0; i < N; i++)
+			{
+				for (int n = 1; n <= H[1]; n++)
+				{
+					sum = sum + Math.Sin((n * t[i] * Math.PI) / 2) * Math.Sin(20 * n * Math.PI * t[i]);
+				}
+				this.gb[i] = (float)(9 / Math.Pow(Math.PI, 2) * sum);
+				sum = 0;
+			}
+			//c
+			this.gc = new float[N];
+			sum = 0;
+			for (int i = 0; i < N; i++)
+			{
+				for (int n = 1; n <= H[2]; n++)
+				{
+					sum = sum + Math.Sin((n * t[i] * Math.PI) / 2) * Math.Sin(20 * n * Math.PI * t[i]);
+				}
+				this.gc[i] = (float)(9 / Math.Pow(Math.PI, 2) * sum);
+				sum = 0;
 			}
 
 		}
@@ -131,6 +181,18 @@ namespace PTD_Lab1
 		public float getUN(int i)
 		{
 			return this.u[i];
+		}
+		public float getGA(int i)
+		{
+			return this.ga[i];
+		}
+		public float getGB(int i)
+		{
+			return this.gb[i];
+		}
+		public float getGC(int i)
+		{
+			return this.gc[i];
 		}
 		public float getSmall_t(int i)
 		{
