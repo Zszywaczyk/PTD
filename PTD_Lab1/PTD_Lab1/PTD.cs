@@ -25,12 +25,14 @@ namespace PTD_Lab1
 		float[] ga;
 		float[] gb;
 		float[] gc;
+		float fsToExport;
 
 		public PTD(float f, float phi, float fs, float T, int N)
 		{
 			this.f = f;
 			this.phi = phi;
 			this.fs = fs;
+			this.fsToExport = fs;
 			this.T = T;
 			this.N = N;
 			x = new float[N];
@@ -50,6 +52,7 @@ namespace PTD_Lab1
 		{
 			this.T = T;
 			this.fs = fs;
+			this.fsToExport = fs;
 			this.N = N;
 			this.t = new float[N];
 			this.u = new float[N];
@@ -84,6 +87,7 @@ namespace PTD_Lab1
 		public PTD(float T, float fs, int N, int[] H) {
 			this.T = T;
 			this.fs = fs;
+			this.fsToExport = fs;
 			this.N = N;
 			this.H = H;
 			this.t = new float[N];
@@ -210,12 +214,128 @@ namespace PTD_Lab1
 		public void saveXNToFile()
 		{
 			string createText;
-			createText = this.N.ToString() + Environment.NewLine;
+			createText = "";
 			for (int i = 0; i < N; i++)
 			{
-				createText += i+" "+this.x[i] + Environment.NewLine;
+				if ((i + 1) != N)
+				{
+					createText += this.x[i] + Environment.NewLine;
+				}
+				else
+				{
+					createText += this.x[i] + Environment.NewLine;
+					createText += this.fsToExport;
+				}
 			}
 			File.WriteAllText("../../../../PTD_Lab2/xn.txt", createText);
+		}
+		public void saveZNToFile()
+		{
+			string createText;
+			createText = "";
+			for (int i = 0; i < N; i++)
+			{
+				if ((i + 1) != N)
+				{
+					createText += this.z[i] + Environment.NewLine;
+				}
+				else
+				{
+					createText += this.z[i] + Environment.NewLine;
+					createText += this.fsToExport;
+				}
+			}
+			File.WriteAllText("../../../../PTD_Lab2/zn.txt", createText);
+		}
+		public void saveVNToFile()
+		{
+			string createText;
+			createText = "";
+			for (int i = 0; i < N; i++)
+			{
+				if ((i + 1) != N)
+				{
+					createText += this.v[i] + Environment.NewLine;
+				}
+				else
+				{
+					createText += this.v[i] + Environment.NewLine;
+					createText += this.fsToExport;
+				}
+			}
+			File.WriteAllText("../../../../PTD_Lab2/vn.txt", createText);
+		}
+		public void saveUNToFile()
+		{
+			string createText;
+			createText = "";
+			for (int i = 0; i < N; i++)
+			{
+				if ((i + 1) != N)
+				{
+					createText += this.u[i] + Environment.NewLine;
+				}
+				else
+				{
+					createText += this.u[i] + Environment.NewLine;
+					createText += this.fsToExport;
+				}
+			}
+			File.WriteAllText("../../../../PTD_Lab2/un.txt", createText);
+		}
+		public void saveGaToFile()
+		{
+			string createText;
+			createText = "";
+			for (int i = 0; i < N; i++)
+			{
+				if ((i + 1) != N)
+				{
+					createText += this.ga[i] + Environment.NewLine;
+				}
+				else
+				{
+					createText += this.ga[i] + Environment.NewLine;
+					createText += this.fsToExport;
+				}
+			}
+			File.WriteAllText("../../../../PTD_Lab2/ga.txt", createText);
+		}
+		public void saveGbToFile()
+		{
+			string createText;
+			createText = "";
+			for (int i = 0; i < N; i++)
+			{
+				if ((i + 1) != N)
+				{
+					createText += this.gb[i] + Environment.NewLine;
+				}
+				else
+				{
+					createText += this.gb[i] + Environment.NewLine;
+					createText += this.fsToExport;
+				}
+			}
+			File.WriteAllText("../../../../PTD_Lab2/gb.txt", createText);
+		}
+		public void saveGcToFile()
+		{
+			string createText;
+			createText = "";
+			for (int i = 0; i < N; i++)
+			{
+				if ((i + 1) != N)
+				{
+					createText += this.gc[i] + Environment.NewLine;
+				}
+				else
+				{
+					createText += this.gc[i] + Environment.NewLine;
+					createText += this.fsToExport;
+				}
+			}
+			File.WriteAllText("../../../../PTD_Lab2/gc.txt", createText);
 		}
 
 	}

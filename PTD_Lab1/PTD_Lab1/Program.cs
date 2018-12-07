@@ -30,9 +30,12 @@ namespace PTD_Lab1
 
 			//Run Graphic
 			Application.Run(new Program(zad1, "1"));
-			Application.Run(new Program(zad1, "2a"));
-			Application.Run(new Program(zad1, "2b"));
 			zad1.saveXNToFile();
+			Application.Run(new Program(zad1, "2a"));
+			zad1.saveZNToFile();
+			Application.Run(new Program(zad1, "2b"));
+			zad1.saveVNToFile();
+			
 
 			T = 3;    //czas trwania sygnalu
 			fs = 1200; //czestotliwosc probkowania
@@ -40,6 +43,7 @@ namespace PTD_Lab1
 
 			PTD zad3 = new PTD(T, fs, N);
 			Application.Run(new Program(zad3, "3"));
+			zad3.saveUNToFile();
 
 			T = 4;
 			fs = 10000;
@@ -48,8 +52,11 @@ namespace PTD_Lab1
 
 			PTD zad4 = new PTD(T, fs, N, H);
 			Application.Run(new Program(zad4, "4a"));
+			zad4.saveGaToFile();
 			Application.Run(new Program(zad4, "4b"));
+			zad4.saveGbToFile();
 			Application.Run(new Program(zad4, "4c"));
+			zad4.saveGcToFile();
 		}
 
 		public Program(PTD zad1, string block)
@@ -58,6 +65,7 @@ namespace PTD_Lab1
 			{
 				case "1":
 					InitializeComponent(zad1);
+					//this.Text = "This Is My Title";
 					break;
 				case "2a":
 					InitializeComponent2a(zad1);
