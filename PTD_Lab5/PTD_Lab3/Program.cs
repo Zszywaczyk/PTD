@@ -24,11 +24,9 @@ namespace PTD_Lab3
 			double kA;
 			double kP;*/
 			string bits = "00100011101001010010111000111";
-			int Tb = 5;
-			double A1 = 2;
-			double A2 = 6;
+			double Tb = 6;
 
-			PTD ptd1 = new PTD(bits, Tb, A1, A2);
+			PTD ptd1 = new PTD(bits, Tb);
 			Application.Run(new Program(ptd1));
 
 			Console.ReadKey();
@@ -69,7 +67,7 @@ namespace PTD_Lab3
 			for (int j = 0; j < ptd.getN; j++)
 			{
 				i = (int)(j / ptd.getTb);
-				//Console.WriteLine(j+". "+i+" = "+ ptd.getBits[i]);
+				Console.WriteLine(j+". "+i+" = "+ ptd.getBits[i]);
 				if (ptd.getBits[i] == '1')
 				{
 					this.chart1.Series[0].Points.AddXY(j, 1);
@@ -78,6 +76,9 @@ namespace PTD_Lab3
 				{
 					this.chart1.Series[0].Points.AddXY(j, 0);
 				}
+
+				
+				
 			}
 
 			this.ClientSize = new System.Drawing.Size(1315, 587);
