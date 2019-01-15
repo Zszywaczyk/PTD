@@ -23,12 +23,13 @@ namespace PTD_Lab3
 			double Am = 2;
 			double kA;
 			double kP;*/
-			string bits = "00100011101001010010111000111";
+			string bits = "11001010";
 			int Tb = 5;
 			double A1 = 2;
 			double A2 = 6;
+			double fs = 200;
 
-			PTD ptd1 = new PTD(bits, Tb, A1, A2);
+			PTD ptd1 = new PTD(bits, Tb, A1, A2, fs);
 			Application.Run(new Program(ptd1));
 
 			Console.ReadKey();
@@ -66,9 +67,10 @@ namespace PTD_Lab3
 			this.chart1.ChartAreas[0].AxisX.Minimum = 0;
 
 			int i;
-			for (int j = 0; j < ptd.getN; j++)
+			for (int j = 0; j < ptd.getMt.Length; j++)
 			{
-				i = (int)(j / ptd.getTb);
+				this.chart1.Series[0].Points.AddXY(ptd.get_t[j], ptd.getMt[j]);
+				/*i = (int)(j / ptd.getTb);
 				//Console.WriteLine(j+". "+i+" = "+ ptd.getBits[i]);
 				if (ptd.getBits[i] == '1')
 				{
@@ -77,7 +79,7 @@ namespace PTD_Lab3
 				else if (ptd.getBits[i] == '0')
 				{
 					this.chart1.Series[0].Points.AddXY(j, 0);
-				}
+				}*/
 			}
 
 			this.ClientSize = new System.Drawing.Size(1315, 587);

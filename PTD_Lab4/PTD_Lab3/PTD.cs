@@ -13,33 +13,36 @@ namespace PTD_Lab3
 	{
 		string bits;	//ciąg bitów wejściowy
 		int[] mt;	//ciag bitów uzupełnienony o dodatkowe
-		double Tb;	//czas trwania jednego bitu
-		int N;  //ilosc bitow przemnozona przez czas kazdej jednej
+		double Tb;  //czas trwania jednego bitu
+		double T; //czas całkowity
+		double fs; //czestotliwość próbkowania
+		int N; 
 		double A1, A2;
-		double[] zA, zF, zP;
+		double[] zA, zF, zP, t;
 
 		int choice;
 
-		public PTD(string bits, double Tb, double A1, double A2)
+		public PTD(string bits, double Tb, double A1, double A2, double fs)
 		{
 			this.A1 = A1;
 			this.A2 = A2;
 			this.bits = bits;
 			this.Tb = Tb;
-			N = bits.Length * (int)Tb;
+			this.fs = fs;
+			T = Tb * bits.Length;
+			N = (int)(T * fs);
 			set_mt();
-
-
 
 		}
 
 		void set_mt()
 		{
 			mt = new int[N];
-			int i;
-			for (int j = 0; j < getN; j++)
+			t = new double[N];
+			int i=0;
+			for (int j = 0; j < N; j++)
 			{
-				i = (int)(j / getTb);
+				t[j] = j / fs;
 				
 				if (getBits[i] == '1')
 				{
@@ -49,13 +52,21 @@ namespace PTD_Lab3
 				{
 					mt[j] = 0;
 				}
-				//Console.WriteLine(j+". "+mt[j]);
+				Console.WriteLine(j+". "+t[j]+"= "+mt[j]);
+				if (t[j] == Tb && i==0) 
+				{
+					i++;
+				}
+				else if ((t[j] % Tb) == 0 && i != 0)
+				{
+					i++;
+				}
 			}
 		}
 
 		void set_zA()
 		{
-			double fn = N * (1 / Tb);
+			/*double fn = N * (1 / Tb);
 			for(int i = 0; i< mt.Length; i++)
 			{
 				if (mt[i] == 1)
@@ -67,12 +78,14 @@ namespace PTD_Lab3
 				{
 
 				}
-			}
+			}*/
 		}
 
 
 		public string getBits { get => bits; }
 		public double getTb { get => Tb; }
+		public double[] get_t { get => t; }
 		public int getN { get => N; set => N = value; }
+		public int[] getMt { get => mt; }
 	}
 }
