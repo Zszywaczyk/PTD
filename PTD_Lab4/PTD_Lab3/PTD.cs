@@ -21,6 +21,13 @@ namespace PTD_Lab3
 		int N; 
 		double A1, A2;
 		double[] zA, zF, zP, t;
+		double[] widmo_zA, widmo_zF, widmo_zP;
+		double[] widmo_zA_log, widmo_zF_log, widmo_zP_log;
+		double[] widmo_fK;
+
+		double[] max = new double[3];
+		double[] max_pos = new double[3];
+
 
 		int choice;
 
@@ -39,6 +46,25 @@ namespace PTD_Lab3
 			set_zA();
 			set_zF();
 			set_zP();
+
+			double[][] temp = operationFFT(zA);
+			widmo_zA = temp[0];
+			//widmo_zA = testfft(zA);
+			widmo_zA_log = operationLog(widmo_zA);
+			widmo_fK = temp[1];
+			//findMaxDb(widmo_zA_log);
+			//testfft(zA);
+			
+			temp = operationFFT(zF);
+			widmo_zF = temp[0];
+			//widmo_zF = testfft(zF);
+			widmo_zF_log = operationLog(widmo_zF);
+			//findMaxDb(widmo_zF_log);
+
+			temp = operationFFT(zP);
+			widmo_zP = temp[0];
+			widmo_zP_log = operationLog(widmo_zP);
+			//findMaxDb(widmo_zP_log);
 
 		}
 
@@ -136,6 +162,151 @@ namespace PTD_Lab3
 			}
 		}
 
+		private double[][] operationFFT(double[] x)
+		{
+
+			double fftN = 0;
+			int m = 0;
+			while ((fftN = Math.Pow(2, m)) < N)
+			{
+				m++;
+			}
+			int localN = (int)fftN / 2;
+			double[] im = new double[(int)fftN];
+			double[] re = new double[(int)fftN];
+			double[][] result = new double[2][];
+			//Console.WriteLine(fftN);
+			for (int i = 0; i < fftN; i++)
+			{
+				im[i] = 0;
+				re[i] = x[i];
+
+			}
+			FFTLibrary.Complex.FFT(1, m, re, im);
+			result[0] = new double[localN];
+			result[1] = new double[localN];
+			for (int i = 0; i < localN; i++)
+			{
+				result[0][i] = Math.Sqrt(re[i] * re[i] + im[i] * im[i]);
+				result[1][i] = i * (fs / fftN);
+			}
+
+			return result;
+
+		}
+
+		private double[] operationLog(double[] localX)
+		{
+			double[] localY = new double[localX.Length];
+			for (int i = 0; i < localX.Length; i++)
+			{
+				localY[i] = 10 * Math.Log(localX[i]);
+				//Console.WriteLine(i+": "+localX[i]);
+			}
+			//findMaxDb(localY);
+			return localY;
+		}
+
+		private void findMaxDb(double[] localY)
+		{
+			max[0] = localY[0];
+			for (int i = 1; i < localY.Length; i++)
+			{
+				if (max[0] < localY[i])
+				{
+					max[0] = localY[i];
+					max_pos[0] = i;
+				}
+			}
+			Console.WriteLine(max_pos[0]+". "+max[0]);
+			max[1] = max[0] - 40000;
+			for (int i = 1; i < localY.Length; i++)
+			{
+				if (max[1] < localY[i] && localY[i] < max[0])
+				{
+					max[1] = localY[i];
+					max_pos[1] = i;
+				}
+			}
+			Console.WriteLine(max_pos[1] + ". " + max[1]);
+			max[2] = max[1] - 40000;
+			for (int i = 1; i < localY.Length; i++)
+			{
+				if (max[2] < localY[i] && localY[i] < max[1])
+				{
+					max[2] = localY[i];
+					max_pos[2] = i;
+				}
+			}
+			Console.WriteLine(max_pos[2] + ". " + max[2]);
+			Console.WriteLine();
+			for(int i = 0; i < 20; i++)
+			{
+				Console.WriteLine(i + ". " + localY[i]);
+			}
+			double temp;
+			double temp_pos;
+
+			for (int i = 1; i < 3; i++)
+			{
+				for (int j = i; j < 3; j++)
+				{
+					if (max_pos[i - 1] > max_pos[j])
+					{
+						temp_pos = max_pos[j];
+						temp = max[j];
+
+						max_pos[j] = max_pos[i - 1];
+						max[j] = max[i - 1];
+
+						max[i - 1] = temp;
+						max_pos[i - 1] = temp_pos;
+					}
+				}
+			}
+			Console.WriteLine(max_pos[0] +" "+ max[0]);
+			Console.WriteLine(max_pos[1] + " " + max[1]);
+			Console.WriteLine(max_pos[2] + " " + max[2]);
+
+			Console.WriteLine();
+		}
+
+		/*private double[] testfft(double[] x)
+		{
+			double fftN = 0;
+			int m;
+			for (m = 0; (fftN = Math.Pow(2, m)) < N; m++)//szukamy N=2^m
+			{
+				if (fftN > (N / 2)) //kiedy jest blisko N
+				{
+					break;
+				}
+			}
+			AForge.Math.Complex[] complex = new AForge.Math.Complex[(int)fftN];
+			for (int i = 0; i < fftN; i++)
+			{
+				complex[i] = (AForge.Math.Complex)x[i];
+				//Console.WriteLine("FFT "+i+": "+complex[i].ToString());
+			}
+			AForge.Math.FourierTransform.FFT(complex, AForge.Math.FourierTransform.Direction.Forward);
+			for (int i = 0; i < fftN; i++)
+			{
+				//complex[i] = (AForge.Math.Complex)x[i];
+				//Console.WriteLine("FFT "+i + " " + complex[i].ToString());
+			}
+
+			double[][] result = new double[2][];
+			result[0] = new double[(int)fftN];
+			result[1] = new double[(int)fftN];
+			for (int i = 0; i < fftN; i++)
+			{
+				result[0][i] = Math.Sqrt(complex[i].Re * complex[i].Re + complex[i].Im * complex[i].Im);
+				result[1][i] = i * (fs / fftN);
+			}
+
+			return result[0];
+
+		}*/
 
 		public string getBits { get => bits; }
 		public double getTb { get => Tb; }
@@ -145,5 +316,14 @@ namespace PTD_Lab3
 		public double[] get_zA { get => zA; }
 		public double[] get_zF { get => zF; }
 		public double[] get_zP { get => zP; }
+		public double[] get_widmo_zA { get => widmo_zA; }
+		public double[] get_widmo_zF { get => widmo_zF; }
+		public double[] get_widmo_zP { get => widmo_zP; }
+		public double[] get_widmo_fK { get => widmo_fK; }
+		public double[] get_widmo_zA_log { get => widmo_zA_log; }
+		public double[] get_widmo_zF_log { get => widmo_zF_log; }
+		public double[] get_widmo_zP_log { get => widmo_zP_log; }
+		public double[] getMax { get => max; }
+		public double[] getMax_pos { get => max_pos; }
 	}
 }

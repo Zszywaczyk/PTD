@@ -13,7 +13,7 @@ namespace PTD_Lab3
 
 		public static int iii;
 		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-
+		enum Mod : int { ASK = 1, FSK = 2, PSK = 3, WidmoASK = 4, WidmoFSK = 5, WidmoPSK = 6 };
 		static void Main(string[] args)
 		{
 			/*double fn = 10000; //znacznie wieksze od fm
@@ -24,22 +24,48 @@ namespace PTD_Lab3
 			double kA;
 			double kP;*/
 			string bits = "11001010";
-			double Tb = 5;
+			double Tb = 2;
 			double A1 = 2;
 			double A2 = 6;
-			double fs = 200;
+			double fs = 128;
 			double NN = 2;
 
 			PTD ptd1 = new PTD(bits, Tb, A1, A2, fs, NN);
-			Application.Run(new Program(ptd1));
+			Application.Run(new Program(ptd1, (int)Mod.ASK));
+			Application.Run(new Program(ptd1, (int)Mod.FSK));
+			Application.Run(new Program(ptd1, (int)Mod.PSK));
+			Application.Run(new Program(ptd1, (int)Mod.WidmoASK));
+			Application.Run(new Program(ptd1, (int)Mod.WidmoFSK));
+			Application.Run(new Program(ptd1, (int)Mod.WidmoPSK));
 
 			Console.ReadKey();
 		}
-		public Program(PTD ptd)
+		public Program(PTD ptd, int choice)
 		{
-					InitializeComponent(ptd);
+			switch (choice)
+			{
+				case 1:
+					InitializeComponent(ptd, (int)Mod.ASK);
+					break;
+				case 2:
+					InitializeComponent(ptd, (int)Mod.FSK);
+					break;
+				case 3:
+					InitializeComponent(ptd, (int)Mod.PSK);
+					break;
+				case 4:
+					InitializeComponent(ptd, (int)Mod.PSK);
+					break;
+				case 5:
+					InitializeComponent(ptd, (int)Mod.PSK);
+					break;
+				case 6:
+					InitializeComponent(ptd, (int)Mod.PSK);
+					break;
+			}
+					
 		}
-		private void InitializeComponent(PTD ptd)
+		private void InitializeComponent(PTD ptd, int choice)
 		{
 			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
 			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -64,13 +90,24 @@ namespace PTD_Lab3
 			this.chart1.TabIndex = 0;
 			this.chart1.Text = "chart1";
 			this.chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-			this.chart1.Series[0].BorderWidth = 3;
+			this.chart1.Series[0].BorderWidth = 2;
+			//this.chart1.ChartAreas[0].AxisX.Minimum = 0;
 			this.chart1.ChartAreas[0].AxisX.Minimum = 0;
+			this.chart1.ChartAreas[0].AxisX.Maximum = 3;
+			this.chart1.ChartAreas[0].AxisY.Maximum = 0;
+			this.chart1.ChartAreas[0].AxisY.Minimum = -50;
+			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			this.chart1.Series.Add(series2);
+			this.chart1.Series[1].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+			this.chart1.Series[1].Color = System.Drawing.Color.Red;
+
+
 
 			int i;
-			for (int j = 0; j < ptd.get_zP.Length; j++)
+			for (int j = 0; j < ptd.get_widmo_zP_log.Length; j++)
 			{
-				this.chart1.Series[0].Points.AddXY(ptd.get_t[j], ptd.get_zP[j]);
+				this.chart1.Series[0].Points.AddXY(ptd.get_widmo_fK[j], ptd.get_widmo_zP_log[j]);
+				//this.chart1.Series[0].Points.AddXY(ptd.get_t[j], ptd.get_zA[j]);
 				/*i = (int)(j / ptd.getTb);
 				//Console.WriteLine(j+". "+i+" = "+ ptd.getBits[i]);
 				if (ptd.getBits[i] == '1')
@@ -81,7 +118,35 @@ namespace PTD_Lab3
 				{
 					this.chart1.Series[0].Points.AddXY(j, 0);
 				}*/
+				if (ptd.getMax[0] >= ptd.getMax[1] - 3 && ptd.getMax[2] >= ptd.getMax[1] - 3)
+				{
+					if (ptd.getMax_pos[0] == j)
+					{
+						this.chart1.Series[1].Points.AddXY(ptd.get_widmo_fK[j], ptd.getMax[1] - 3);
+					}
+					if (ptd.getMax_pos[1] == j)
+					{
+						this.chart1.Series[1].Points.AddXY(ptd.get_widmo_fK[j], ptd.getMax[1] - 3);
+					}
+					if (ptd.getMax_pos[2] == j)
+					{
+						this.chart1.Series[1].Points.AddXY(ptd.get_widmo_fK[j], ptd.getMax[1] - 3);
+					}
+				}
 			}
+			Console.WriteLine("Szerokość pasma: " + (ptd.get_widmo_fK[(int)ptd.getMax_pos[2]] - ptd.get_widmo_fK[(int)ptd.getMax_pos[0]]) + " Hz");
+
+			// Set ToolTips for Data Point Series
+			/*chart1.Series[0].ToolTip = "x: #VALX \n y: #VAL";
+
+			// Set ToolTips for legend items
+			chart1.Series[0].LegendToolTip = "Income in #LABEL  is #VAL million";
+
+			// Set ToolTips for the Data Point labels
+			chart1.Series[0].LabelToolTip = "#PERCENT";
+
+			// Set ToolTips for second Data Point
+			chart1.Series[0].Points[1].ToolTip = "Unknown";*/
 
 			this.ClientSize = new System.Drawing.Size(1315, 587);
 			this.Controls.Add(this.chart1);
