@@ -207,7 +207,7 @@ namespace PTD_Lab3
 			return localY;
 		}
 
-		private void findMaxDb(double[] localY)
+		public void findMaxDb(double[] localY)
 		{
 			max[0] = localY[0];
 			for (int i = 1; i < localY.Length; i++)
@@ -218,7 +218,7 @@ namespace PTD_Lab3
 					max_pos[0] = i;
 				}
 			}
-			Console.WriteLine(max_pos[0]+". "+max[0]);
+			//Console.WriteLine(max_pos[0]+". "+max[0]);
 			max[1] = max[0] - 40000;
 			for (int i = 1; i < localY.Length; i++)
 			{
@@ -228,7 +228,7 @@ namespace PTD_Lab3
 					max_pos[1] = i;
 				}
 			}
-			Console.WriteLine(max_pos[1] + ". " + max[1]);
+			//Console.WriteLine(max_pos[1] + ". " + max[1]);
 			max[2] = max[1] - 40000;
 			for (int i = 1; i < localY.Length; i++)
 			{
@@ -238,12 +238,8 @@ namespace PTD_Lab3
 					max_pos[2] = i;
 				}
 			}
-			Console.WriteLine(max_pos[2] + ". " + max[2]);
-			Console.WriteLine();
-			for(int i = 0; i < 20; i++)
-			{
-				Console.WriteLine(i + ". " + localY[i]);
-			}
+			//Console.WriteLine(max_pos[2] + ". " + max[2]);
+			//Console.WriteLine();
 			double temp;
 			double temp_pos;
 
@@ -264,11 +260,11 @@ namespace PTD_Lab3
 					}
 				}
 			}
-			Console.WriteLine(max_pos[0] +" "+ max[0]);
-			Console.WriteLine(max_pos[1] + " " + max[1]);
-			Console.WriteLine(max_pos[2] + " " + max[2]);
+			//Console.WriteLine(max_pos[0] +" "+ max[0]);
+			//Console.WriteLine(max_pos[1] + " " + max[1]);
+			//Console.WriteLine(max_pos[2] + " " + max[2]);
 
-			Console.WriteLine();
+			//Console.WriteLine();
 		}
 
 		/*private double[] testfft(double[] x)

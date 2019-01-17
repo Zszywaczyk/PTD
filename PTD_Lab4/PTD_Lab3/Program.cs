@@ -94,17 +94,10 @@ namespace PTD_Lab3
 			this.chart1.ChartAreas[0].AxisX.Minimum = 0;
 
 			int localLength; //zaleznie czy to ask, fsk czy ich widma, jest rowna liczbie probek (stosowane w petli)
-			if (choice == (int)Mod.WidmoASK || choice == (int)Mod.WidmoFSK || choice == (int)Mod.WidmoPSK) {
+			if (choice == (int)Mod.WidmoASK || choice == (int)Mod.WidmoFSK || choice == (int)Mod.WidmoPSK)
 				localLength = ptd.get_widmo_fK.Length;
-				System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-				this.chart1.Series.Add(series2);
-				this.chart1.Series[1].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-				this.chart1.Series[1].Color = System.Drawing.Color.Red;
-			}
 			else
-			{
 				localLength = ptd.get_t.Length;
-			}
 
 			int i;
 			for (int j = 0; j < localLength; j++)
@@ -122,30 +115,51 @@ namespace PTD_Lab3
 					this.chart1.Series[0].Points.AddXY(ptd.get_widmo_fK[j], ptd.get_widmo_zF[j]);
 				else if (choice == (int)Mod.WidmoPSK)
 					this.chart1.Series[0].Points.AddXY(ptd.get_widmo_fK[j], ptd.get_widmo_zP[j]);
+			}
 
-				if (choice == (int)Mod.WidmoASK || choice == (int)Mod.WidmoFSK || choice == (int)Mod.WidmoPSK)
-				{
-					if (ptd.getMax[0] >= ptd.getMax[1] - 3 && ptd.getMax[2] >= ptd.getMax[1] - 3)
-					{
-						if (ptd.getMax_pos[0] == j)
-						{
-							this.chart1.Series[1].Points.AddXY(ptd.get_widmo_fK[j], ptd.getMax[1] - 3);
-						}
-						if (ptd.getMax_pos[1] == j)
-						{
-							this.chart1.Series[1].Points.AddXY(ptd.get_widmo_fK[j], ptd.getMax[1] - 3);
-						}
-						if (ptd.getMax_pos[2] == j)
-						{
-							this.chart1.Series[1].Points.AddXY(ptd.get_widmo_fK[j], ptd.getMax[1] - 3);
-						}
-					}
-				}
-			}
-			if (choice == (int)Mod.WidmoASK || choice == (int)Mod.WidmoFSK || choice == (int)Mod.WidmoPSK)
+			string name="";
+			if (choice == (int)Mod.WidmoASK)
 			{
-				Console.WriteLine("Szerokość pasma: " + (ptd.get_widmo_fK[(int)ptd.getMax_pos[2]] - ptd.get_widmo_fK[(int)ptd.getMax_pos[0]]) + " Hz");
+				ptd.findMaxDb(ptd.get_widmo_zA_log);
+				name = Mod.ASK.ToString();
+				this.chart1.Series[0].LegendText = "zA widmo\n AxisX: F\n AxisY: A";
+				this.chart1.SaveImage("../../../" + (int)Mod.WidmoASK + " - zA_widmo.png", System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png); //zapisujemy charta
 			}
+			else if (choice == (int)Mod.WidmoFSK)
+			{
+				ptd.findMaxDb(ptd.get_widmo_zF_log);
+				name = Mod.FSK.ToString();
+				this.chart1.Series[0].LegendText = "zF widmo\n AxisX: F\n AxisY: A";
+				this.chart1.SaveImage("../../../" + (int)Mod.WidmoFSK + " - zF_widmo.png", System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png); //zapisujemy charta
+			}
+			else if (choice == (int)Mod.WidmoPSK)
+			{
+				ptd.findMaxDb(ptd.get_widmo_zP_log);
+				name = Mod.PSK.ToString();
+				this.chart1.Series[0].LegendText = "zP widmo\n AxisX: F\n AxisY: A";
+				this.chart1.SaveImage("../../../" + (int)Mod.WidmoPSK + " - zP_widmo.png", System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png); //zapisujemy charta
+			}
+			else if (choice == (int)Mod.ASK)
+			{
+				this.chart1.Series[0].LegendText = "zA \n AxisX: T\n AxisY: F";
+				this.chart1.SaveImage("../../../" + (int)Mod.ASK + " - zA.png", System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png); //zapisujemy charta
+			}
+			else if (choice == (int)Mod.FSK)
+			{
+				this.chart1.Series[0].LegendText = "zF \n AxisX: T\n AxisY: F";
+				this.chart1.SaveImage("../../../" + (int)Mod.FSK + " - zF.png", System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png); //zapisujemy charta
+			}
+			else if (choice == (int)Mod.PSK)
+			{
+				this.chart1.Series[0].LegendText = "zP \n AxisX: T\n AxisY: F";
+				this.chart1.SaveImage("../../../" + (int)Mod.PSK + " - zP.png", System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png); //zapisujemy charta
+			}
+			
+
+			if (choice == (int)Mod.WidmoASK || choice == (int)Mod.WidmoFSK || choice == (int)Mod.WidmoPSK)
+				Console.WriteLine("Szerokość pasma "+name+": " + (ptd.get_widmo_fK[(int)ptd.getMax_pos[2]] - ptd.get_widmo_fK[(int)ptd.getMax_pos[0]]) + " Hz");
+
+
 			// Set ToolTips for Data Point Series
 			/*chart1.Series[0].ToolTip = "x: #VALX \n y: #VAL";
 
