@@ -29,7 +29,7 @@ namespace PTD_Lab3
 		double[] max_pos = new double[3];
 
 
-		int choice;
+		
 
 		public PTD(string bits, double Tb, double A1, double A2, double fs, double NN)
 		{

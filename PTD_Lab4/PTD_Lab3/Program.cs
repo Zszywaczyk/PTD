@@ -54,13 +54,13 @@ namespace PTD_Lab3
 					InitializeComponent(ptd, (int)Mod.PSK);
 					break;
 				case 4:
-					InitializeComponent(ptd, (int)Mod.PSK);
+					InitializeComponent(ptd, (int)Mod.WidmoASK);
 					break;
 				case 5:
-					InitializeComponent(ptd, (int)Mod.PSK);
+					InitializeComponent(ptd, (int)Mod.WidmoFSK);
 					break;
 				case 6:
-					InitializeComponent(ptd, (int)Mod.PSK);
+					InitializeComponent(ptd, (int)Mod.WidmoPSK);
 					break;
 			}
 					
@@ -91,51 +91,61 @@ namespace PTD_Lab3
 			this.chart1.Text = "chart1";
 			this.chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
 			this.chart1.Series[0].BorderWidth = 2;
-			//this.chart1.ChartAreas[0].AxisX.Minimum = 0;
 			this.chart1.ChartAreas[0].AxisX.Minimum = 0;
-			this.chart1.ChartAreas[0].AxisX.Maximum = 3;
-			this.chart1.ChartAreas[0].AxisY.Maximum = 0;
-			this.chart1.ChartAreas[0].AxisY.Minimum = -50;
-			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			this.chart1.Series.Add(series2);
-			this.chart1.Series[1].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-			this.chart1.Series[1].Color = System.Drawing.Color.Red;
 
-
+			int localLength; //zaleznie czy to ask, fsk czy ich widma, jest rowna liczbie probek (stosowane w petli)
+			if (choice == (int)Mod.WidmoASK || choice == (int)Mod.WidmoFSK || choice == (int)Mod.WidmoPSK) {
+				localLength = ptd.get_widmo_fK.Length;
+				System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+				this.chart1.Series.Add(series2);
+				this.chart1.Series[1].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+				this.chart1.Series[1].Color = System.Drawing.Color.Red;
+			}
+			else
+			{
+				localLength = ptd.get_t.Length;
+			}
 
 			int i;
-			for (int j = 0; j < ptd.get_widmo_zP_log.Length; j++)
+			for (int j = 0; j < localLength; j++)
 			{
-				this.chart1.Series[0].Points.AddXY(ptd.get_widmo_fK[j], ptd.get_widmo_zP_log[j]);
-				//this.chart1.Series[0].Points.AddXY(ptd.get_t[j], ptd.get_zA[j]);
-				/*i = (int)(j / ptd.getTb);
-				//Console.WriteLine(j+". "+i+" = "+ ptd.getBits[i]);
-				if (ptd.getBits[i] == '1')
+				if (choice == (int)Mod.ASK)
+					this.chart1.Series[0].Points.AddXY(ptd.get_t[j], ptd.get_zA[j]);
+				else if(choice == (int)Mod.FSK)
+					this.chart1.Series[0].Points.AddXY(ptd.get_t[j], ptd.get_zF[j]);
+				else if (choice == (int)Mod.PSK)
+					this.chart1.Series[0].Points.AddXY(ptd.get_t[j], ptd.get_zP[j]);
+
+				else if (choice == (int)Mod.WidmoASK)
+					this.chart1.Series[0].Points.AddXY(ptd.get_widmo_fK[j], ptd.get_widmo_zA[j]);
+				else if (choice == (int)Mod.WidmoFSK)
+					this.chart1.Series[0].Points.AddXY(ptd.get_widmo_fK[j], ptd.get_widmo_zF[j]);
+				else if (choice == (int)Mod.WidmoPSK)
+					this.chart1.Series[0].Points.AddXY(ptd.get_widmo_fK[j], ptd.get_widmo_zP[j]);
+
+				if (choice == (int)Mod.WidmoASK || choice == (int)Mod.WidmoFSK || choice == (int)Mod.WidmoPSK)
 				{
-					this.chart1.Series[0].Points.AddXY(j, 1);
-				}
-				else if (ptd.getBits[i] == '0')
-				{
-					this.chart1.Series[0].Points.AddXY(j, 0);
-				}*/
-				if (ptd.getMax[0] >= ptd.getMax[1] - 3 && ptd.getMax[2] >= ptd.getMax[1] - 3)
-				{
-					if (ptd.getMax_pos[0] == j)
+					if (ptd.getMax[0] >= ptd.getMax[1] - 3 && ptd.getMax[2] >= ptd.getMax[1] - 3)
 					{
-						this.chart1.Series[1].Points.AddXY(ptd.get_widmo_fK[j], ptd.getMax[1] - 3);
-					}
-					if (ptd.getMax_pos[1] == j)
-					{
-						this.chart1.Series[1].Points.AddXY(ptd.get_widmo_fK[j], ptd.getMax[1] - 3);
-					}
-					if (ptd.getMax_pos[2] == j)
-					{
-						this.chart1.Series[1].Points.AddXY(ptd.get_widmo_fK[j], ptd.getMax[1] - 3);
+						if (ptd.getMax_pos[0] == j)
+						{
+							this.chart1.Series[1].Points.AddXY(ptd.get_widmo_fK[j], ptd.getMax[1] - 3);
+						}
+						if (ptd.getMax_pos[1] == j)
+						{
+							this.chart1.Series[1].Points.AddXY(ptd.get_widmo_fK[j], ptd.getMax[1] - 3);
+						}
+						if (ptd.getMax_pos[2] == j)
+						{
+							this.chart1.Series[1].Points.AddXY(ptd.get_widmo_fK[j], ptd.getMax[1] - 3);
+						}
 					}
 				}
 			}
-			Console.WriteLine("Szerokość pasma: " + (ptd.get_widmo_fK[(int)ptd.getMax_pos[2]] - ptd.get_widmo_fK[(int)ptd.getMax_pos[0]]) + " Hz");
-
+			if (choice == (int)Mod.WidmoASK || choice == (int)Mod.WidmoFSK || choice == (int)Mod.WidmoPSK)
+			{
+				Console.WriteLine("Szerokość pasma: " + (ptd.get_widmo_fK[(int)ptd.getMax_pos[2]] - ptd.get_widmo_fK[(int)ptd.getMax_pos[0]]) + " Hz");
+			}
 			// Set ToolTips for Data Point Series
 			/*chart1.Series[0].ToolTip = "x: #VALX \n y: #VAL";
 
