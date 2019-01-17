@@ -267,6 +267,34 @@ namespace PTD_Lab3
 			//Console.WriteLine();
 		}
 
+		//================================================================
+		//zapisuje dane wyjsciowe dla Lab5
+		//(Pamietaj raz "z" raz "t" (modulo 2)(parzyste/nieparzyste))
+		public void saveXNToFile(double[] x, double[] t, string name)
+		{
+			string createText;
+			createText = "";
+			int localLength = t.Length;
+			for (int i = 0; i < localLength; i++)
+			{
+				if (i%2==0)
+				{
+					createText += x[i];
+				}
+				else
+				{
+					createText += x[i];
+					createText += t[i];
+				}
+
+				if (i != localLength - 1)
+				{
+					createText += Environment.NewLine;
+				}
+			}
+			File.WriteAllText("../../../../PTD_Lab5/"+name+".txt", createText);
+		}
+
 		/*private double[] testfft(double[] x)
 		{
 			double fftN = 0;

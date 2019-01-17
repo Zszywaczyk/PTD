@@ -143,16 +143,19 @@ namespace PTD_Lab3
 			{
 				this.chart1.Series[0].LegendText = "zA \n AxisX: T\n AxisY: F";
 				this.chart1.SaveImage("../../../" + (int)Mod.ASK + " - zA.png", System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png); //zapisujemy charta
+				ptd.saveXNToFile(ptd.get_zA, ptd.get_t, "zA"); //zapisuje dane wyjsciowe dla Lab5 (Pamietaj raz "z" raz "t" (modulo 2)(parzyste/nieparzyste))
 			}
 			else if (choice == (int)Mod.FSK)
 			{
 				this.chart1.Series[0].LegendText = "zF \n AxisX: T\n AxisY: F";
 				this.chart1.SaveImage("../../../" + (int)Mod.FSK + " - zF.png", System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png); //zapisujemy charta
+				ptd.saveXNToFile(ptd.get_zF, ptd.get_t, "zF"); //zapisuje dane wyjsciowe dla Lab5 (Pamietaj raz "z" raz "t" (modulo 2)(parzyste/nieparzyste))
 			}
 			else if (choice == (int)Mod.PSK)
 			{
 				this.chart1.Series[0].LegendText = "zP \n AxisX: T\n AxisY: F";
 				this.chart1.SaveImage("../../../" + (int)Mod.PSK + " - zP.png", System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png); //zapisujemy charta
+				ptd.saveXNToFile(ptd.get_zP, ptd.get_t, "zP"); //zapisuje dane wyjsciowe dla Lab5 (Pamietaj raz "z" raz "t" (modulo 2)(parzyste/nieparzyste))
 			}
 			
 
