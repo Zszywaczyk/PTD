@@ -24,6 +24,7 @@ namespace PTD_Lab3
 		double[] widmo_zA, widmo_zF, widmo_zP;
 		double[] widmo_zA_log, widmo_zF_log, widmo_zP_log;
 		double[] widmo_fK;
+		double[] sant, sn1t, sn2t, spnt;
 
 		double[] max = new double[3];
 		double[] max_pos = new double[3];
@@ -101,15 +102,18 @@ namespace PTD_Lab3
 		{
 			fn = NN * (1 / Tb);
 			zA = new double[N];
+			sant = new double[N];
 			for (int j = 0; j < N; j++)
 			{
-				if(mt[j] == 0)
+				sant[j] = A2 * Math.Sin(2 * Math.PI * fn * t[j]);
+				//Console.WriteLine(j + ". " + sant[j]);
+				if (mt[j] == 0)
 				{
 					zA[j] = A1 * Math.Sin(2 * Math.PI * fn * t[j]);
 				}
 				else if(mt[j] == 1)
 				{
-					zA[j] = A2 * Math.Sin(2 * Math.PI * fn * t[j]);
+					zA[j] = sant[j];
 				}
 			}
 
@@ -132,15 +136,19 @@ namespace PTD_Lab3
 			fn1 = (NN + 1) * (1 / Tb);
 			fn2 = (NN + 2) * (1 / Tb);
 			zF = new double[N];
+			sn1t = new double[N];
+			sn2t = new double[N];
 			for (int j = 0; j < N; j++)
 			{
+				sn1t[j] = Math.Sin(2 * Math.PI * fn1 * t[j]);
+				sn2t[j] = Math.Sin(2 * Math.PI * fn2 * t[j]);
 				if (mt[j] == 0)
 				{
-					zF[j] = Math.Sin(2 * Math.PI * fn1 * t[j]);
+					zF[j] = sn1t[j];
 				}
 				else if (mt[j] == 1)
 				{
-					zF[j] = Math.Sin(2 * Math.PI * fn2 * t[j]);
+					zF[j] = sn2t[j];
 				}
 			}
 		}
@@ -149,11 +157,13 @@ namespace PTD_Lab3
 		{
 			fn = NN * (1 / Tb);
 			zP = new double[N];
+			spnt = new double[N];
 			for (int j = 0; j < N; j++)
 			{
+				spnt[j] = Math.Sin(2 * Math.PI * fn * t[j]);
 				if (mt[j] == 0)
 				{
-					zP[j] = Math.Sin(2 * Math.PI * fn * t[j]);
+					zP[j] = spnt[j];
 				}
 				else if (mt[j] == 1)
 				{
@@ -270,21 +280,51 @@ namespace PTD_Lab3
 		//================================================================
 		//zapisuje dane wyjsciowe dla Lab5
 		//(Pamietaj raz "z" raz "t" (modulo 2)(parzyste/nieparzyste))
-		public void saveXNToFile(double[] x, double[] t, string name)
+		//Pliki "zA.txt", "zF.txt", "zP.txt", "t.txt"
+		public void saveXNToFile(double[] x, string name)
 		{
 			string createText;
 			createText = "";
 			int localLength = t.Length;
 			for (int i = 0; i < localLength; i++)
 			{
-				if (i%2==0)
+				createText += x[i];
+				
+				if (i != localLength - 1)
 				{
-					createText += x[i];
+					createText += Environment.NewLine;
 				}
-				else
+			}
+			File.WriteAllText("../../../../PTD_Lab5/"+name+".txt", createText);
+		}
+
+		//zapisuje w jednym pliku sant, sn1t, sn2t, spnt do "st.txt"
+		public void saveXNToFile(double[] a, double[] b, double[] c, double[] d, string name)
+		{
+			string createText;
+			createText = "";
+			int localLength = t.Length *4;
+			//Console.WriteLine((a.Length + b.Length + c.Length + d.Length) );
+			//Console.WriteLine(localLength);
+			int j = 0;
+			for (int i = 0; i < localLength; i++)
+			{
+				if (i % 4 == 0)
 				{
-					createText += x[i];
-					createText += t[i];
+					createText += a[j];
+				}
+				else if(i % 4 == 1)
+				{
+					createText += b[j];
+				}
+				else if (i % 4 == 2)
+				{
+					createText += c[j];
+				}
+				else if (i % 4 == 3)
+				{
+					createText += d[j];
+					j++;
 				}
 
 				if (i != localLength - 1)
@@ -292,7 +332,7 @@ namespace PTD_Lab3
 					createText += Environment.NewLine;
 				}
 			}
-			File.WriteAllText("../../../../PTD_Lab5/"+name+".txt", createText);
+			File.WriteAllText("../../../../PTD_Lab5/" + name + ".txt", createText);
 		}
 
 		/*private double[] testfft(double[] x)
@@ -349,5 +389,10 @@ namespace PTD_Lab3
 		public double[] get_widmo_zP_log { get => widmo_zP_log; }
 		public double[] getMax { get => max; }
 		public double[] getMax_pos { get => max_pos; }
+
+		public double[] get_sant { get => sant;}
+		public double[] get_sn1t { get => sn1t;}
+		public double[] get_sn2t { get => sn2t;}
+		public double[] get_spnt { get => spnt;}
 	}
 }

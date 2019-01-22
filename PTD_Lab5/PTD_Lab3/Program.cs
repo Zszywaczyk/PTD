@@ -16,26 +16,31 @@ namespace PTD_Lab3
 
 		static void Main(string[] args)
 		{
-			/*double fn = 10000; //znacznie wieksze od fm
-			double fs = 32768; // fs >= 2*fn
-			double fm = 6; //znacznie mniejsze od fn
-			double T = 0.5;
-			double Am = 2;
-			double kA;
-			double kP;*/
-			string bits = "00100011101001010010111000111";
-			double Tb = 6;
 
-			PTD ptd1 = new PTD(bits, Tb);
-			Application.Run(new Program(ptd1));
+			double Tb = 2; //nadać recznie pod wzgledem poprzedniego zadania
+
+			PTD ptd = new PTD(Tb);
+			Application.Run(new Program(ptd.get_t,ptd.get_zA, "1.ASK zA"));
+			Application.Run(new Program(ptd.get_t, ptd.get_xt_ask, "2.ASK xt"));
+			Application.Run(new Program(ptd.get_t, ptd.get_pt_ask, "3.ASK pt"));
+			Application.Run(new Program(ptd.get_t, ptd.get_mt_ask, "4.ASK mt"));
+			Application.Run(new Program(ptd.get_t, ptd.get_zP, "5.PSK zP"));
+			Application.Run(new Program(ptd.get_t, ptd.get_xt_psk, "6.PSK xt"));
+			Application.Run(new Program(ptd.get_t, ptd.get_pt_psk, "7.PSK pt"));
+			Application.Run(new Program(ptd.get_t, ptd.get_mt_psk, "8.PSK mt"));
+			Application.Run(new Program(ptd.get_t, ptd.get_zF, "9.FSK zF"));
+			Application.Run(new Program(ptd.get_t, ptd.get_x1t_fsk, "10.FSK x1t"));
+			Application.Run(new Program(ptd.get_t, ptd.get_x2t_fsk, "11.FSK x2t"));
+			Application.Run(new Program(ptd.get_t, ptd.get_pt_fsk, "12.FSK pt"));
+			Application.Run(new Program(ptd.get_t, ptd.get_mt_fsk, "13.FSK mt"));
 
 			Console.ReadKey();
 		}
-		public Program(PTD ptd)
+		public Program(double[] x, double[] y, string name)
 		{
-					InitializeComponent(ptd);
+					InitializeComponent(x, y, name);
 		}
-		private void InitializeComponent(PTD ptd)
+		private void InitializeComponent(double[] x, double[] y, string name)
 		{
 			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
 			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -62,28 +67,22 @@ namespace PTD_Lab3
 			this.chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
 			this.chart1.Series[0].BorderWidth = 3;
 			this.chart1.ChartAreas[0].AxisX.Minimum = 0;
+			//this.chart1.ChartAreas[0].AxisX.Minimum = 5;
+			//this.chart1.ChartAreas[0].AxisX.Maximum = 7;
+			//this.chart1.ChartAreas[0].AxisY.Minimum = 1535;
+			//this.chart1.ChartAreas[0].AxisY.Maximum = 1536;
 
-			int i;
-			for (int j = 0; j < ptd.getN; j++)
+			for (int j = 0; j < x.Length; j++)
 			{
-				i = (int)(j / ptd.getTb);
-				Console.WriteLine(j+". "+i+" = "+ ptd.getBits[i]);
-				if (ptd.getBits[i] == '1')
-				{
-					this.chart1.Series[0].Points.AddXY(j, 1);
-				}
-				else if (ptd.getBits[i] == '0')
-				{
-					this.chart1.Series[0].Points.AddXY(j, 0);
-				}
-
-				
-				
+					this.chart1.Series[0].Points.AddXY(x[j], y[j]);
 			}
+			this.chart1.Series[0].LegendText = name;
 
 			this.ClientSize = new System.Drawing.Size(1315, 587);
 			this.Controls.Add(this.chart1);
 			this.Name = "Program";
+
+			this.chart1.SaveImage("../../../" + name + ".png", System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png); //zapisujemy charta
 
 			((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
 			this.ResumeLayout(false);
